@@ -2,20 +2,92 @@ import json
 from datetime import datetime
 from datetime import timedelta
 
+date = open('data.json').read()
+dates = json.loads(date)
 
-data = open('data.json').read()
+managers = []
+watchers = []
 
+for dados in dates:
+    for x in dados['managers']:
+        if x not in managers:
+            managers.append(x)
+            locals()['manager_%s' %x]=[]
+    for y in dados['watchers']:
+        if y not in watchers:
+            locals()['watchers_%s' %y]=[]
+            watchers.append(y)
+
+for dados in dates:
+    for x in dados['managers']:
+        for y in managers:
+            if x == y:
+                locals()['manager_%s' %x].append((dados['name'],dados['priority']))
+                locals()['manager_%s' %x].sort(key=lambda x: x[1])
+                
+    for x in dados['watchers']:
+        for y in watchers:
+            if x == y:
+                locals()['watchers_%s' %x].append((dados['name'],dados['priority']))
+                locals()['watchers_%s' %x].sort(key=lambda x: x[1])
+
+manager = {}
+watcher = {}
+print(locals()['manager_%s' %x])
+for x in managers:
+    manager[x] = locals()['manager_%s' %x]
+
+
+with open('manager.json', 'w') as json_file:
+    json.dump(manager, json_file, indent=1)        
+
+
+
+
+
+
+
+'''
 messages = json.loads(data)
 list_date = []
+list_time = []
 
-for item in messages:
-    list_date.append(item)
+for message in messages:
+    if message["user"] not in list_date:
+        list_date.append(message["user"])
+        list_time.append(message["ts"])
+        locals()['usuario_%s' %message['user']]=[]
+        locals()['listuser_%s' %message['user']]= []
 
-user_1 = []
-user_2 = []
-user_3 = []
-user_4 = []
+for message in messages:
+    for user in list_date:
+        if message['user'] == user:
+            locals()
+            locals()['listuser_%s' %message['user']].append(message)
 
+for user in list_time:
+    time_now = float(time)/60
+    for message in locals()['listuser_%s' %user]:
+        time_message = (float(message['ts']))/60
+        if time_message >= time_now and time_message <= (time_now+2):
+            print(user)
+            print(time_message)
+            print(time_now)
+                
+                
+        else:
+            time_now+=2 
+        
+
+#print(listuser_U0KK0T3CG)
+    
+
+'''
+        
+
+
+
+'''
 for user_for in list_date:
     if user_for['user'] == 'U0MFNAG05':
         user_1.append(user_for)
@@ -143,3 +215,4 @@ list_user4[0].insert(0, "1471111019.937810")
 for x in list_user4:
     arquivo.write(str(x)+"\n")
 arquivo.close()
+'''
