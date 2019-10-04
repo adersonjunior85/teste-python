@@ -36,7 +36,12 @@ watcher = {}
 print(locals()['manager_%s' %x])
 for x in managers:
     manager[x] = locals()['manager_%s' %x]
+for y in watchers:
+    watcher[y] = locals()['watchers_%s' %y]
 
 
-with open('manager.json', 'w') as json_file:
-    json.dump(manager, json_file, indent=2)        
+with open('managers.json', 'w') as json_file:
+    json.dump(manager, json_file, indent=2)  
+
+with open('watchers.json', 'w') as json_file:
+    json.dump(watcher, json_file, indent=2)        
