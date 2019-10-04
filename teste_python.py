@@ -24,21 +24,29 @@ for dados in dates:
             if x == y:
                 locals()['manager_%s' %x].append((dados['name'],dados['priority']))
                 locals()['manager_%s' %x].sort(key=lambda x: x[1])
-                
+                    
     for x in dados['watchers']:
         for y in watchers:
             if x == y:
                 locals()['watchers_%s' %x].append((dados['name'],dados['priority']))
                 locals()['watchers_%s' %x].sort(key=lambda x: x[1])
 
+for user in managers:
+    locals()['managerof_%s' %user] = []
+    for x in locals()['manager_%s' %user]: 
+        locals()['managerof_%s' %user].append(x[0])
+for user in watchers:
+    locals()['watchersof_%s' %user] = []
+    for x in locals()['watchers_%s' %user]: 
+        locals()['watchersof_%s' %user].append(x[0])
+
 manager = {}
 watcher = {}
-print(locals()['manager_%s' %x])
-for x in managers:
-    manager[x] = locals()['manager_%s' %x]
-for y in watchers:
-    watcher[y] = locals()['watchers_%s' %y]
 
+for x in managers:
+    manager[x] = locals()['managerof_%s' %x]
+for y in watchers:
+    watcher[y] = locals()['watchersof_%s' %y]
 
 with open('managers.json', 'w') as json_file:
     json.dump(manager, json_file, indent=2)  
